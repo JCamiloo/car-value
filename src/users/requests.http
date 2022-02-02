@@ -4,5 +4,22 @@ Content-Type: application/json
 
 {
   "email": "test1@test.com",
-  "password": "test12345"
+  "password": "test123"
 }
+
+### Find a user with a given id
+GET http://localhost:3000/auth/1
+
+### Find all users with a given email
+GET http://localhost:3000/auth?email=test1@test.com
+
+### Update a user with a given id
+PATCH http://localhost:3000/auth/2
+Content-Type: application/json
+
+{
+  "email": "updatetest@test.com"
+}
+
+### Delete a user with a given id
+DELETE http://localhost:3000/auth/2
