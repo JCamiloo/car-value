@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, AfterInsert, AfterUpdate, AfterRemove } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  AfterInsert,
+  AfterUpdate,
+  AfterRemove
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -27,9 +34,9 @@ export class User {
   }
 
   logUser() {
-    return { 
-      id: this.id, 
-      email: this.email, 
+    return {
+      id: this.id,
+      email: this.email,
       password: this.password
     }
   }
