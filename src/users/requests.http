@@ -1,20 +1,28 @@
+### Get the current user
+GET http://localhost:3000/auth/whoami
+Content-Type: application/json
+
 ### Create a new user
 POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-  "email": "test1@test.com",
+  "email": "test2@test.com",
   "password": "test123"
 }
 
-### Sign in a user
+### Sign in as an existing user
 POST http://localhost:3000/auth/signin
 Content-Type: application/json
 
 {
-  "email": "test1@test.com",
+  "email": "test2@test.com",
   "password": "test123"
 }
+
+### Sign out a user
+POST http://localhost:3000/auth/signout
+Content-Type: application/json
 
 ### Find a user with a given id
 GET http://localhost:3000/auth/2
