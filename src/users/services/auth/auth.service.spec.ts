@@ -3,15 +3,32 @@ import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
 import { User } from '../../entities/user.entity';
 
+const FAKE_EMAIL = 'test@test.com';
+const FAKE_PASSWORD = 'test';
+
 describe('AuthService', () => {
   let service: AuthService;
   let fakeUsersService: Partial<UsersService>;
 
   beforeEach(async () => {
+    const users: User[] = [];
+
     fakeUsersService = {
-      find: () => Promise.resolve([]),
-      create: (email: string, password: string) =>
-        Promise.resolve({ id: 1, email, password } as User)
+      find: (email: string) => {
+        const filteredUsers = users.filter(user => user.email === email);
+        return Promise.resolve(filteredUsers);
+      },
+      create: (email: string, password: string) => {
+        const user = {
+          id: Math.floor(Math.random() * 999999),
+          email,
+          password
+        } as User;
+
+        users.push(user);
+
+        return Promise.resolve(user);
+      }
     };
   
     const module = await Test.createTestingModule({
@@ -32,7 +49,7 @@ describe('AuthService', () => {
   });
 
   it('creates a new user with a salted and hashed password', async () => {
-    const user = await service.signup('test@test.com', 'test');
+    const user = await service.signup(FAKE_EMAIL, FAKE_PASSWORD);
 
     expect(user.password).not.toEqual('test');
 
@@ -42,10 +59,26 @@ describe('AuthService', () => {
   });
 
   it('throws an error if user signs up with email that is in use', (done)  => {
-    fakeUsersService.find = () => Promise.resolve([
-      { id: 1, email: 'a', password: '1'} as User
-    ]);
+    service.signup(FAKE_EMAIL, FAKE_PASSWORD).then(() => {
+      service.signup(FAKE_EMAIL, FAKE_PASSWORD).catch(() => done());
+    });
+  });
 
-    service.signup('test@test.com', 'test').catch(() => done());
+  it('throws if signin is called with an unused email', (done) => {
+    service.signin(FAKE_EMAIL, FAKE_PASSWORD).catch(() => done());
+  });
+
+  it('throws if an invalid password is provided', (done) => {
+    service.signup(FAKE_EMAIL, FAKE_PASSWORD).then(() => {
+      service.signin(FAKE_EMAIL, '1234').catch(() => done());
+    });
+  });
+
+  it('returns a user if correct password is provided', async () => {
+    await service.signup(FAKE_EMAIL, FAKE_PASSWORD);
+
+    const user = await service.signin(FAKE_EMAIL, FAKE_PASSWORD);
+    
+    expect(user).toBeDefined();
   });
 })
