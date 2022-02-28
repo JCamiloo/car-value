@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 const cookieSession = require('cookie-session');
@@ -10,12 +9,7 @@ async function bootstrap() {
     keys: ['asdfasfd']
   }));
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true
-    })
-  );
-
   await app.listen(3000);
 }
+
 bootstrap();
