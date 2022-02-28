@@ -8,7 +8,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ReportsModule } from './reports/reports.module';
 import { User } from './users/entities/user.entity';
-import { Report } from './reports/report.entity';
+import { Report } from './reports/entities/report.entity';
 const cookieSession = require('cookie-session');
 
 @Module({
