@@ -43,7 +43,7 @@ const cookieSession = require('cookie-session');
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(cookieSession({
-      keys: ['asdfasfd']
+      keys: [process.env.COOKIE_KEY]
     })).forRoutes('*');
   }
 }
