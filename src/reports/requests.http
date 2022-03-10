@@ -12,7 +12,7 @@ Content-Type: application/json
   "price": 55000
 }
 
-### Aprove an existing report
+### Approve an existing report
 PATCH http://localhost:3000/reports/1
 Content-Type: application/json
 
